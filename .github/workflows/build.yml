@@ -22,4 +22,4 @@ jobs:
     - name: Build
       run: dotnet build ./eShopOnWeb.sln -c Release
     - name: Test
-      run: dotnet test ./eShopOnWeb.sln --no-build --verbosity normal
+      run: dotnet test ./eShopOnWeb.sln -c Release
