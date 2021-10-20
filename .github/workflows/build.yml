@@ -8,9 +8,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
@@ -23,8 +21,13 @@ jobs:
       run: dotnet build ./eShopOnWeb.sln --configuration Release
     - name: Test
       run: dotnet test ./eShopOnWeb.sln -c Release
+  buildpushappimage:
+    runs-on: ubuntu-latest
+    name: Build and Push to ACR
+    needs: build
+    steps:
     - name: Azure Container Registry Login
-      uses: Azure/docker-login@v1
+    - uses: Azure/docker-login@v1
       with:
         # Container registry username
         username: ${{ secrets.ACR_USER}}
@@ -32,4 +35,7 @@ jobs:
         password: ${{ secrets.ACR_PASSWORD}}
         # Container registry server url
         login-server: ${{ secrets.ACR_SERVER}}
+    - run: |
+        docker build -f src/Web/Dockerfile . -t ${{ secrets.ACR_SERVER }}/eshop:${{ github.run_id }}
+        docker push ${{ secrets.ACR_SERVER }}/eshop:${{ github.run_id }}
       
