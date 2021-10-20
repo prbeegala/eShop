@@ -81,6 +81,6 @@ jobs:
          
       - name: Swap staging to production
         run: |
-         az webapp deployment slot swap --name GitHubWorkShop12345678 --resource-group GitHubWorkShop12345678 --slot staging --target-slot production
+         az webapp deployment slot swap --name githubworkshopcontainer --resource-group githubworkshop --slot staging --target-slot production
         
       
